@@ -12,7 +12,7 @@
         <div class="col-start-7 col-span-5 self-center justify-self-center">
           <img
             class="h-80 w-80 object-contain"
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/2367px-Vue.js_Logo_2.svg.png"
+            src="https://www.gstatic.com/hiring/CportalUi/hero_4_2x.png"
           />
         </div>
         <div class="col-start-12 col-span-1"></div>

@@ -1,15 +1,13 @@
 <template>
-  <form class="flex h-12 w-full items-center rounded-3xl border border-solid border-brand-gray-3">
+  <form
+    class="flex h-12 w-full items-center rounded-3xl border border-solid border-brand-gray-3"
+    @submit.prevent="searchForJobs"
+  >
     <font-awesome-icon :icon="['fas', 'search']" class="ml-4 mr-3"></font-awesome-icon>
     <div class="flex flex-1 flex-nowrap h-full text-base font-light">
       <div class="flex h-full flex-1 relative items-center pr-3">
-        <label class="absolute left-0 -top-10">Role</label>
-        <input
-          v-model="role"
-          type="text"
-          placeholder="Software engineer"
-          class="w-full text-lg font-normal focus:outline-none"
-        />
+        <label for="role" class="absolute left-0 -top-10">Role</label>
+        <TextInput id="role" v-model="role" placeholder="Software engineer" />
       </div>
 
       <span
@@ -18,13 +16,8 @@
       >
 
       <div class="flex h-full flex-1 relative items-center pl-3">
-        <label class="absolute left-0 -top-10">Where?</label>
-        <input
-          v-model="location"
-          type="text"
-          placeholder="Los Angeles"
-          class="w-full text-lg font-normal focus:outline-none"
-        />
+        <label for="location" class="absolute left-0 -top-10">Where?</label>
+        <TextInput id="location" v-model="location" placeholder="Los Angeles" />
       </div>
     </div>
     <ActionButton text="Search" type="secondary" class="rounded-r-3xl" />
@@ -33,9 +26,11 @@
 
 <script>
 import ActionButton from '@/components/Shared/ActionButton.vue'
+import TextInput from '@/components/Shared/TextInput.vue'
+
 export default {
   name: 'JobSearchForm',
-  components: { ActionButton },
+  components: { ActionButton, TextInput },
   data() {
     return {
       role: '',
@@ -43,8 +38,11 @@ export default {
     }
   },
   methods: {
-    updateRole(event) {
-      this.role = event.target.value
+    searchForJobs() {
+      this.$router.push({
+        name: 'JobResults',
+        query: { role: this.role, location: this.location }
+      })
     }
   }
 }
