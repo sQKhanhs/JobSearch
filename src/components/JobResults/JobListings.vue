@@ -11,12 +11,14 @@
         <div class="flex items-center justify-center">
           <RouterLink
             v-if="previousPage"
+            role="link"
             :to="{ name: 'JobResults', query: { page: previousPage } }"
             class="mx-3 text-sm font-semibold text-brand-blue-1"
             >Previous</RouterLink
           >
           <RouterLink
             v-if="nextPage"
+            role="link"
             :to="{ name: 'JobResults', query: { page: nextPage } }"
             class="mx-3 text-sm font-semibold text-brand-blue-1"
             >Next</RouterLink
@@ -54,7 +56,7 @@ export default {
     },
     nextPage() {
       const nextPage = this.currentPage + 1
-      const maxPage = Math.floor(this.jobs.length / 10)
+      const maxPage = Math.ceil(this.jobs.length / 10)
       return nextPage <= maxPage ? nextPage : undefined
     },
     displayedJobs() {
@@ -65,7 +67,8 @@ export default {
     }
   },
   async mounted() {
-    const res = await axios.get('http://localhost:3000/jobs')
+    const baseUrl = import.meta.env.VITE_APP_API_URL;
+    const res = await axios.get(`${baseUrl}/jobs`)
     this.jobs = res.data
   }
 }
