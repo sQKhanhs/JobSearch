@@ -1,12 +1,34 @@
-import axios from "axios";
-import { describe, vi } from "vitest";
+import axios from 'axios'
+import { beforeEach, describe, vi } from 'vitest'
 
-import getJobs from "@/api/getJobs"
-vi.mock("axios")
+import getJobs from '@/api/getJobs'
 
-describe("getJobs", () => {
-    it("fetches job that candidates can apply to", async () => {
-        await getJobs();
-        expect(axios.get).toHaveBeenCalledWith("http://myfakeapi.com/jobs")
+vi.mock('axios')
+
+describe('getJobs', () => {
+  beforeEach(() => {
+    axios.get.mockResolvedValue({
+      data: [
+        {
+          id: 1,
+          title: 'Java Engineer'
+        }
+      ]
     })
+  })
+
+  it('fetches jobs that candidates can apply to', async () => {
+    await getJobs()
+    expect(axios.get).toHaveBeenCalledWith('http://myfakeapi.com/jobs')
+  })
+
+  it('extracts jobs from response', async () => {
+    const jobs = await getJobs()
+    expect(jobs).toEqual([
+      {
+        id: 1,
+        title: 'Java Engineer'
+      }
+    ])
+  })
 })
