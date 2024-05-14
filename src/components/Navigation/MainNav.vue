@@ -43,7 +43,7 @@ export default {
     return {
       url: 'https://careers.google.com',
       menuItems: [
-        { text: 'Teams', url: '/' },
+        { text: 'Teams', url: '/teams' },
         { text: 'Locations', url: '/' },
         { text: 'Life at Senni Corp', url: '/' },
         { text: 'How we hire', url: '/' },
