@@ -1,12 +1,20 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
-export const useUserStore = defineStore("user", {
-    state: () => ({
-        isLoggedIn: false
-    }),
-    actions: {
-        loginUser() {
-            this.isLoggedIn = true;
-        }
+export const useUserStore = defineStore('user', {
+  state: () => ({
+    isLoggedIn: false,
+    selectedOrganizations: [],
+    selectedJobTypes: []
+  }),
+  actions: {
+    loginUser() {
+      this.isLoggedIn = true
+    },
+    addSelectedOrganizations(organizations) {
+      this.selectedOrganizations = organizations
+    },
+    addSelectedJobTypes(jobTypes) {
+      this.selectedJobTypes = jobTypes
     }
-});
+  }
+})
