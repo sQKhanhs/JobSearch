@@ -29,32 +29,24 @@
   </main>
 </template>
 
-
 <script setup>
 import JobListing from '@/components/JobResults/JobListing.vue'
 import { RouterLink } from 'vue-router'
-import { useJobsStore} from '@/stores/jobs'
+import { useJobsStore } from '@/stores/jobs'
 import { useRoute } from 'vue-router'
 import { onMounted, computed } from 'vue'
+import usePreviousAndNextPages from '@/composables/usePreviousAndNextPages'
 
 const route = useRoute()
 const jobsStore = useJobsStore()
-const filteredJobs = computed(() => jobsStore.filteredJobs);
+
+const maxPage = computed(() => Math.ceil(filteredJobs.value.length / 10))
+const filteredJobs = computed(() => jobsStore.filteredJobs)
 const currentPage = computed(() => {
   return Number.parseInt(route.query.page || '1')
 })
 
-const previousPage = computed(() => {
-  const previousPage = currentPage.value - 1
-  const firstPage = 1
-  return previousPage >= firstPage ? previousPage : undefined
-})
-
-const nextPage = computed(() => {
-  const nextPage = currentPage.value + 1
-  const maxPage = Math.ceil(filteredJobs.value.length / 10)
-  return nextPage <= maxPage ? nextPage : undefined
-})
+const { previousPage, nextPage } = usePreviousAndNextPages(currentPage, maxPage)
 
 const displayedJobs = computed(() => {
   const pageNumber = currentPage.value
@@ -64,6 +56,6 @@ const displayedJobs = computed(() => {
 })
 
 onMounted(async () => {
-  await jobsStore.FETCH_JOBS();
+  await jobsStore.FETCH_JOBS()
 })
 </script>
