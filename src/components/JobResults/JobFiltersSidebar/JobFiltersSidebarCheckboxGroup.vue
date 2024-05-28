@@ -6,7 +6,7 @@
           <li v-for="value in uniqueValues" :key="value" class="h-8 w-1/2">
             <input
               :id="value"
-              v-model="selectedValue"
+              v-model="selectedValues"
               :value="value"
               type="checkbox"
               class="mr-3"
@@ -20,32 +20,43 @@
   </CollapsibleAccordion>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import CollapsibleAccordion from '@/components/Shared/CollapsibleAccordion.vue'
 
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user';
+
+const userStore = useUserStore();
 
 const props = defineProps({
-    header: {
-        type: String,
-        required: true
-    },
-    uniqueValues: {
-      type: Set,
-      required: true
-    },
-    action: {
-      type: Function,
-      required: true
-    }
+  header: {
+    type: String,
+    required: true
+  },
+  uniqueValues: {
+    type: [Set<string>, Array<string>],
+    required: true
+  },
+  action: {
+    type: Function,
+    required: true
+  }
 })
 
-const selectedValue = ref([])
-const router = useRouter();
+const selectedValues = ref<string[]>([])
+const router = useRouter()
 
-const selectValue= () => {
-  props.action(selectedValue.value)
+const selectValue = () => {
+  props.action(selectedValues.value)
   router.push({ name: 'JobResults' })
 }
+
+userStore.$onAction(({after, name}) => {
+  after(() => {
+    if (name === 'clearJobFilters'){
+      selectedValues.value = []
+    }
+  })
+})
 </script>

@@ -2,8 +2,9 @@ import { createPinia, setActivePinia } from 'pinia'
 import axios from 'axios'
 import { useJobsStore } from '@/stores/jobs'
 import { useUserStore } from '@/stores/user'
-import { describe, expect } from 'vitest'
+
 import type { Mock } from 'vitest'
+import { createJob } from '../../utils/createJob'
 import type { Job } from '@/api/types'
 
 vi.mock('axios')
@@ -36,20 +37,6 @@ describe('actions', () => {
 })
 
 describe('getters', () => {
-  const createJob = (job: Partial<Job> = {}): Job => ({
-    id: 1,
-    title: 'Angular Developer',
-    organization: 'Vue and Me',
-    degree: "Master's",
-    jobType: 'Intern',
-    locations: ['Lisbon'],
-    minimumQualifications: ['Mesh granular deliverables'],
-    preferredQualifications: ['Mesh wireless metrics'],
-    description: ['Away someone forget effect wait land.'],
-    dateAdded: '2021-07-04',
-    ...job
-  })
-
   beforeEach(() => {
     setActivePinia(createPinia())
   })
@@ -133,4 +120,68 @@ describe('getters', () => {
       expect(result).toBe(true)
     })
   })
+
+  describe('includeJobByDegree', () => {
+    describe('when the user has not selected any degrees', () => {
+      it('includes job', () => {
+        const userStore = useUserStore()
+        userStore.selectedDegrees = []
+        const jobsStore = useJobsStore()
+        const job = createJob()
+
+        const result = jobsStore.includeJobByDegree(job)
+
+        expect(result).toBe(true)
+      })
+    })
+
+    it('identifies if job is associated with given organizations', () => {
+      const userStore = useUserStore()
+      userStore.selectedDegrees = ["Master's"]
+      const jobsStore = useJobsStore()
+      const job = createJob({ degree: "Master's" })
+
+      const result = jobsStore.includeJobByDegree(job)
+
+      expect(result).toBe(true)
+    })
+  })
+
+  describe('includeJobBySkill', () => {
+    it("identifies if job is job matches user's skill", () => {
+      const userStore = useUserStore()
+      userStore.skillsSearchTerm = "Vue"
+      const jobsStore = useJobsStore()
+      const job = createJob({ title: "Vue Developer"})
+      
+      const result = jobsStore.includeJobBySkill(job);
+
+      expect(result).toBe(true)
+    })
+
+    it("handles inconsistent character casing", () => {
+      const userStore = useUserStore()
+      userStore.skillsSearchTerm = "vuE"
+      const jobsStore = useJobsStore()
+      const job = createJob({ title: "Vue Developer"})
+      
+      const result = jobsStore.includeJobBySkill(job);
+
+      expect(result).toBe(true)
+    })
+
+    describe("when the user has not entered any skill", () => {
+      it("includes job", () => {
+        const userStore = useUserStore()
+        userStore.skillsSearchTerm = ""
+        const jobsStore = useJobsStore()
+        const job = createJob({ title: "Vue Developer"})
+        
+        const result = jobsStore.includeJobBySkill(job);
+  
+        expect(result).toBe(true)
+      })
+    })
+  })
+  
 })

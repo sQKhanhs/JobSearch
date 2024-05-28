@@ -29,21 +29,23 @@
   </main>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import JobListing from '@/components/JobResults/JobListing.vue'
 import { RouterLink } from 'vue-router'
 import { useJobsStore } from '@/stores/jobs'
+import { useDegreesStore } from '@/stores/degrees'
 import { useRoute } from 'vue-router'
 import { onMounted, computed } from 'vue'
 import usePreviousAndNextPages from '@/composables/usePreviousAndNextPages'
 
 const route = useRoute()
 const jobsStore = useJobsStore()
+const degreesStore = useDegreesStore()
 
 const maxPage = computed(() => Math.ceil(filteredJobs.value.length / 10))
 const filteredJobs = computed(() => jobsStore.filteredJobs)
 const currentPage = computed(() => {
-  return Number.parseInt(route.query.page || '1')
+  return Number.parseInt(route.query.page as string || '1')
 })
 
 const { previousPage, nextPage } = usePreviousAndNextPages(currentPage, maxPage)
@@ -55,7 +57,8 @@ const displayedJobs = computed(() => {
   return filteredJobs.value.slice(firstJobIndex, lastJobIndex)
 })
 
-onMounted(async () => {
-  await jobsStore.FETCH_JOBS()
+onMounted(() => {
+  jobsStore.FETCH_JOBS()
+  degreesStore.fetchDegrees()
 })
 </script>

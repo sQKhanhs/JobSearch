@@ -1,12 +1,9 @@
 <template>
   <TheHero />
+  <MainFooter />
 </template>
 
-<script>
-import TheHero from '@/components/JobSearch/TheHero.vue'
-
-export default {
-  name: 'HomeView',
-  components: { TheHero }
-}
+<script lang="ts" setup>
+import TheHero from '@/components/JobSearch/TheHero.vue';
+import MainFooter from '@/components/Navigation/MainFooter.vue';
 </script>

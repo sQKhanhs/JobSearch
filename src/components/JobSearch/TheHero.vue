@@ -41,7 +41,7 @@
   </main>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import TheHeadLine from '@/components/JobSearch/TheHeadLine.vue'
 import JobSearchForm from '@/components/JobSearch/JobSearchForm.vue'
 import SpotLight from '@/components/JobSearch/SpotLight.vue'
@@ -49,11 +49,11 @@ import nextElementInList from '@/utils/NextElementInList'
 import { onMounted, onUnmounted, ref } from 'vue'
 
 const imageLink = ref('')
-let interval = null
+const interval = ref<ReturnType<typeof setInterval>>()
 
 onMounted(() => {
   imageLink.value = 'https://www.gstatic.com/hiring/CportalUi/hero_1_1x.png';
-  interval = setInterval(() => {
+  interval.value = setInterval(() => {
     const link = [
       'https://www.gstatic.com/hiring/CportalUi/hero_1_1x.png',
       'https://www.gstatic.com/hiring/CportalUi/hero_2_1x.png',
@@ -65,6 +65,6 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  clearInterval(interval)
+  clearInterval(interval.value)
 })
 </script>

@@ -1,4 +1,26 @@
 {
+  "degrees": [
+    {
+      "id": 1,
+      "degree": "Associate"
+    },
+    {
+      "id": 2,
+      "degree": "Bachelor's"
+    },
+    {
+      "id": 3,
+      "degree": "Master's"
+    },
+    {
+      "id": 4,
+      "degree": "Ph.D."
+    },
+    {
+      "id": 5,
+      "degree": "Pursuing Degree"
+    }
+  ],
   "spotlights": [
     {
       "id": 1,
@@ -2083,12 +2105,7 @@
       "organization": "Vue and a Half Men",
       "degree": "Ph.D.",
       "jobType": "Part-time",
-      "locations": [
-        "Santiago",
-        "Santa Ana-Anaheim",
-        "Brussels",
-        "Philadelphia"
-      ],
+      "locations": ["Santiago", "Santa Ana-Anaheim", "Brussels", "Philadelphia"],
       "minimumQualifications": [
         "Disintermediate collaborative platforms, embrace 24/7 interfaces, and integrate sticky relationships",
         "Synthesize 24/365 methodologies, empower cutting-edge e-services, and deliver rich e-services",
@@ -2387,12 +2404,7 @@
       "organization": "VueTube",
       "degree": "Master's",
       "jobType": "Temporary",
-      "locations": [
-        "Santa Ana-Anaheim",
-        "Singapore",
-        "Mexico City",
-        "Edmonton"
-      ],
+      "locations": ["Santa Ana-Anaheim", "Singapore", "Mexico City", "Edmonton"],
       "minimumQualifications": [
         "Incubate integrated networks, incentivize innovative e-services, and synthesize 24/365 info-mediaries",
         "Generate e-business infrastructures, target viral mindshare, and re-intermediate killer metrics",
